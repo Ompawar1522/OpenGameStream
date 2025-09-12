@@ -129,7 +129,7 @@ OpenGameStream uses MQTT brokers to negotiate a peer-to-peer connection via WebR
 
 ## 🧰 Tech Stack
 
-- **C# / .NET 9** (compiled with Native AOT)
+- **C# / .NET 10** (compiled with Native AOT)
 - [FFmpeg.AutoGen](https://github.com/Ruslan-B/FFmpeg.AutoGen) ([Custom build](https://github.com/ZetrocDev/FFmpeg-min-gpu-build))
 - [DataChannelDotnet](https://github.com/ZetrocDev/DataChannelDotnet) – WebRTC wrapper
 - [AvaloniaUI](https://github.com/AvaloniaUI/Avalonia) – Cross-platform UI

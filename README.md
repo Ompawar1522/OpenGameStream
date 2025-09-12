@@ -31,7 +31,7 @@ Key differences:
 2.  Extract and run `OGS.exe`
 3.  Click **"Create Client"**
 4.  Copy the **Client invite code**
-5.  Paste the **client invite code** into the client 
+5.  Paste the **client invite code** into the client app (https://opengamestream.pages.dev/)
 
 You’re connected! 🎉
 

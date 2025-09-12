@@ -1,0 +1,63 @@
+.overlayContainer {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100%;
+}
+
+.overlayTopContainer {
+    margin: auto;
+    margin-top: 5px;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
+    padding: 3px 10px;
+
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    font-size: 14px;
+
+    justify-items: center;
+    align-items: center;
+}
+
+.inputEnabled {
+    color: green;
+    size: 40;
+}
+
+.inputDisabled {
+    size: 40;
+    color: red;
+}
+
+.settingsPanelContainer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.settingsButton{
+    background-color: transparent;
+    border: 0;
+    color: white;
+}
+
+.settingsVisible{
+    color: orange;
+}
+
+.settingsButton:hover{
+    color: gray
+}
+
+.sessionVideo{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

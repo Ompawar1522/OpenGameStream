@@ -1,0 +1,7 @@
+.muteButton {
+    color: white;
+}
+
+.muteButton:hover {
+    color: gray;
+}

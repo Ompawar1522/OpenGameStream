@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<LangVersion>Preview</LangVersion>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.3.5" />
+		<PackageReference Include="DataChannelDotnet" Version="1.2.3" />
+		<PackageReference Include="FFmpeg.AutoGen" Version="7.1.1" />
+		<PackageReference Include="MessageBox.Avalonia" Version="3.2.0" />
+		<PackageReference Include="MQTTnet" Version="5.0.1.1416" />
+		<PackageReference Include="ZeroLog" Version="2.3.0" />
+	</ItemGroup>
+
+</Project>

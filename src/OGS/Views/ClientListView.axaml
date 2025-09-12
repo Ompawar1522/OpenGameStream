@@ -1,0 +1,150 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:viewModels1="clr-namespace:OGS.ViewModels"
+             xmlns:converters="clr-namespace:OGS.Converters"
+             xmlns:controls1="clr-namespace:OGS.Controls"
+             xmlns:avalonia1="clr-namespace:LoadingIndicators.Avalonia;assembly=LoadingIndicators.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="174" d:DesignHeight="350"
+             x:Class="OGS.Views.ClientListView"
+             x:DataType="viewModels1:MainWindowViewModel">
+
+	<Design.DataContext>
+		<viewModels1:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<UserControl.Resources>
+		<converters:ConnectedColorConverter x:Key="ConnectedColorConverter"/>
+		<x:Double x:Key="IconBoxSize">20</x:Double>
+		<x:Double x:Key="IconSpacing">8</x:Double>
+		<x:Double x:Key="ToggleIconSpacing">4</x:Double>
+	</UserControl.Resources>
+
+	<Grid Background="#161616" RowDefinitions="Auto, *" ColumnDefinitions="*" HorizontalAlignment="Stretch">
+		<StackPanel Grid.Row="0">
+			<Label Content="Clients" FontSize="16" HorizontalAlignment="Center"/>
+			<Separator Background="DarkGray"/>
+		</StackPanel>
+
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+			<ItemsControl ItemsSource="{Binding Clients}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Vertical"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Border Margin="4, 8,4, 0" Padding="4, 4, 4, 4" Background="#242626">
+							<Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="4">
+								<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"/>
+
+								<Grid Grid.Row="0" Grid.Column="1" ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="{StaticResource ToggleIconSpacing}" HorizontalAlignment="Right" VerticalAlignment="Center">
+									<Border Grid.Column="2" Width="{StaticResource IconBoxSize}" Height="{StaticResource IconBoxSize}" ClipToBounds="True" Background="Transparent">
+										<avalonia:MaterialIcon Kind="Network"
+										                       Foreground="{Binding Connected, Converter={StaticResource ConnectedColorConverter}}"
+										                       HorizontalAlignment="Center" VerticalAlignment="Center"
+										                       ToolTip.Tip="Client connected"/>
+									</Border>
+								</Grid>
+
+								<StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Spacing="{StaticResource ToggleIconSpacing}" Margin="0,2,0,0">
+									<Button Background="Transparent"
+									        BorderThickness="0"
+									        Padding="0"
+									        Width="20"
+									        Height="20"
+									        Focusable="False"
+									        Command="{Binding RemoveClientCommand}"
+									        ToolTip.Tip="Disconnect this client">
+										<avalonia:MaterialIcon Kind="LocalAreaNetworkDisconnect"
+										                       Foreground="White"/>
+										<Button.Styles>
+											<Style Selector="Button:pointerover /template/ ContentPresenter">
+												<Setter Property="Background" Value="#555555"/>
+											</Style>
+										</Button.Styles>
+									</Button>
+									<Button Background="Transparent"
+									        BorderThickness="0"
+									        Padding="0"
+									        Width="20"
+									        Height="20"
+									        Focusable="False"
+									        Command="{Binding CopyInviteCodeCommand}"
+									        IsVisible="{Binding HasInviteCode}"
+									        IsEnabled="{Binding InviteCodeGenerated}"
+									        ToolTip.Tip="Copy invite code">
+										<avalonia:MaterialIcon Kind="ContentCopy"
+										                       Foreground="White"/>
+										<Button.Styles>
+											<Style Selector="Button:pointerover /template/ ContentPresenter">
+												<Setter Property="Background" Value="#555555"/>
+											</Style>
+										</Button.Styles>
+									</Button>
+								</StackPanel>
+
+								<Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="{StaticResource ToggleIconSpacing}" Margin="0,2,0,0" HorizontalAlignment="Right">
+									<Button Grid.Column="0" Background="Transparent"
+											BorderThickness="0"
+											Padding="0"
+											Width="20"
+											Height="20"
+											Focusable="False"
+											Command="{Binding ToggleMouseInputCommand}"
+											ToolTip.Tip="Toggle client mouse access">
+											<avalonia:MaterialIcon Kind="Mouse"
+															   Foreground="{Binding MouseEnabled, Converter={StaticResource ConnectedColorConverter}}"/>
+											<Button.Styles>
+												<Style Selector="Button:pointerover /template/ ContentPresenter">
+													<Setter Property="Background" Value="#555555"/>
+												</Style>
+											</Button.Styles>
+										</Button>
+
+									<Button Grid.Column="1" Background="Transparent"
+											BorderThickness="0"
+											Padding="0"
+											Width="20"
+											Height="20"
+											Focusable="False"
+											Command="{Binding ToggleKeyboardInputCommand}"
+											ToolTip.Tip="Toggle client keyboard access">
+											<avalonia:MaterialIcon Kind="Keyboard"
+															   Foreground="{Binding KeyboardEnabled, Converter={StaticResource ConnectedColorConverter}}"/>
+											<Button.Styles>
+												<Style Selector="Button:pointerover /template/ ContentPresenter">
+													<Setter Property="Background" Value="#555555"/>
+												</Style>
+											</Button.Styles>
+										</Button>
+
+									<Button Grid.Column="2" Background="Transparent"
+											BorderThickness="0"
+											Padding="0"
+											Width="20"
+											Height="20"
+											Focusable="False"
+											Command="{Binding ToggleGamepadInputCommand}"
+											ToolTip.Tip="Toggle client controller access">
+											<avalonia:MaterialIcon Kind="Controller"
+															   Foreground="{Binding GamepadEnabled, Converter={StaticResource ConnectedColorConverter}}"/>
+											<Button.Styles>
+												<Style Selector="Button:pointerover /template/ ContentPresenter">
+													<Setter Property="Background" Value="#555555"/>
+												</Style>
+											</Button.Styles>
+										</Button>
+								</Grid>
+							</Grid>
+						</Border>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+	</Grid>
+
+</UserControl>

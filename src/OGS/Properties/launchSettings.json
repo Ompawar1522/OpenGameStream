@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "OGS": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "OGS_HOOK_PATH": ""
+      }
+    }
+  }
+}

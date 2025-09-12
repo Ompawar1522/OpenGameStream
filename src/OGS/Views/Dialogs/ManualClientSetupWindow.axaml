@@ -1,0 +1,65 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:OGS.ViewModels.Dialogs"
+        xmlns:li="using:LoadingIndicators.Avalonia"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        x:DataType="vm:ManualClientSetupVm"
+        x:Class="OGS.Views.Dialogs.ManualClientSetupWindow"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Background="#161616"
+        Icon="/Assets/ogs.png"
+        Title="Manual client setup">
+    
+    <Design.DataContext>
+        <vm:ManualClientSetupVm></vm:ManualClientSetupVm>
+    </Design.DataContext>
+    
+    <Border
+        Padding="20"
+        CornerRadius="12"
+        
+        BorderBrush="{DynamicResource ThemeBorderBrush}"
+        BorderThickness="1"
+        BoxShadow="0 8 24 0 #80000080">
+        <StackPanel Spacing="12" MinWidth="380" >
+
+            <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                <avalonia:MaterialIcon Kind="LocalAreaNetworkConnect" Width="20" Height="20"/>
+                <TextBlock Text="Connect client manually" FontSize="18" FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <StackPanel Spacing="8" HorizontalAlignment="Center" Margin="0,4,0,0">
+                <li:LoadingIndicator IsVisible="{Binding Busy}" Width="48" Height="48" Mode="Arcs" SpeedRatio="1.2" />
+                <li:LoadingIndicator IsVisible="{Binding !Busy}" Width="48" Height="48" Mode="Pulse" SpeedRatio="0.7" />
+                <TextBlock HorizontalAlignment="Center" Text="{Binding LoadingText}" Opacity="0.9"/>
+            </StackPanel>
+
+            <Separator Margin="0,4"/>
+
+            <StackPanel Spacing="8">
+                <Button Classes="Accent"
+                        Command="{Binding CopyCodeCommand}"
+                        IsEnabled="{Binding CanCopyInvite}"
+                        HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                        <avalonia:MaterialIcon Kind="ContentCopy" Width="18" Height="18"/>
+                        <TextBlock Text="Copy invite code"/>
+                    </StackPanel>
+                </Button>
+
+                <Button IsDefault="True"
+                        Command="{Binding PasteAnswerCommand}"
+                        IsEnabled="{Binding CanPasteAnswer}"
+                        HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                        <avalonia:MaterialIcon Kind="ClipboardCheckMultipleOutline" Width="18" Height="18"/>
+                        <TextBlock Text="Paste answer code"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+    </Border>
+</Window>

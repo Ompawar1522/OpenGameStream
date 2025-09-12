@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="FFmpeg.AutoGen" Version="7.1.1" />
+		<PackageReference Include="Lennox.NvEncSharp" Version="2.0.0" />
+		<PackageReference Include="MessageBox.Avalonia" Version="3.2.0" />
+		<PackageReference Include="Nefarius.ViGEm.Client" Version="1.21.256" />
+		<PackageReference Include="TerraFX.Interop.Windows" Version="10.0.26100.2" />
+		<PackageReference Include="ZeroLog" Version="2.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\OGS.Core\OGS.Core.csproj" />
+		<ProjectReference Include="..\OGS.Windows.HookShared\OGS.Windows.HookShared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="LIBS\avcodec-61.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>avcodec-61.dll</TargetPath>
+		</None>
+		<None Update="LIBS\avutil-59.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>avutil-59.dll</TargetPath>
+		</None>
+		<None Update="LIBS\swscale-8.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>swscale-8.dll</TargetPath>
+		</None>
+		<None Update="LIBS\libgcc_s_seh-1.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>libgcc_s_seh-1.dll</TargetPath>
+		</None>
+		<None Update="LIBS\libstdc++-6.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>libstdc++-6.dll</TargetPath>
+		</None>
+		<None Update="LIBS\libwinpthread-1.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>libwinpthread-1.dll</TargetPath>
+		</None>
+	</ItemGroup>
+
+</Project>

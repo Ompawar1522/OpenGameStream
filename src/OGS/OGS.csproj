@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+		<PublishAot>false</PublishAot>
+		<LangVersion>Preview</LangVersion>
+		<ApplicationIcon>Assets/ogs.ico</ApplicationIcon>
+		<Version>0.0.1</Version>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<WebClientUrl>$(WEBCLIENT_URL)</WebClientUrl>
+	</PropertyGroup>
+
+	<Target Name="GenerateConstants" BeforeTargets="BeforeCompile" Inputs="$(Version)" Outputs="$(IntermediateOutputPath)VersionInfo.g.cs">
+		<WriteLinesToFile File="BuildInfo.g.cs" Overwrite="true" Lines="namespace OGS { public static class BuildInfo { public const string AppVersion = &quot;$(Version)&quot;%3B public const string ClientUrl = &quot;$(WebClientUrl)&quot;%3B } }" />
+		<ItemGroup>
+			<Compile Include="BuildInfo.g.cs" />
+		</ItemGroup>
+	</Target>
+
+	<ItemGroup>
+		<Folder Include="Models\" />
+		<AvaloniaResource Include="Assets\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.3.5" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.3.5" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.5" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.5" />
+		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+		<PackageReference Include="Avalonia.Diagnostics" Version="11.3.5">
+			<IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+			<PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="LoadingIndicators.Avalonia" Version="11.0.11.1" />
+		<PackageReference Include="Material.Icons.Avalonia" Version="2.4.1" />
+		<PackageReference Include="MessageBox.Avalonia" Version="3.2.0" />
+		<PackageReference Include="StrongInject" Version="1.4.4" />
+		<PackageReference Include="ZeroLog" Version="2.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\OGS.Core\OGS.Core.csproj" />
+		<ProjectReference Include="..\OGS.Windows\OGS.Windows.csproj" />
+	</ItemGroup>
+</Project>

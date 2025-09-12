@@ -1,0 +1,39 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:controls="clr-namespace:OGS.Controls"
+    xmlns:controls1="clr-namespace:OGS.Controls"
+    x:Class="OGS.Controls.IconButton">
+
+    <Button Background="Transparent"
+            Padding="0"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Width="{Binding Width, RelativeSource={RelativeSource AncestorType=controls1:IconButton}}"
+            Height="{Binding Height, RelativeSource={RelativeSource AncestorType=controls1:IconButton}}"
+            Command="{Binding Command, RelativeSource={RelativeSource AncestorType=controls1:IconButton}}"
+            CommandParameter="{Binding CommandParameter, RelativeSource={RelativeSource AncestorType=controls1:IconButton}}">
+
+        <avalonia:MaterialIcon
+            Kind="{Binding Kind, RelativeSource={RelativeSource AncestorType=controls1:IconButton}}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Width="{Binding IconSize, RelativeSource={RelativeSource AncestorType=controls1:IconButton}}"
+            Height="{Binding IconSize, RelativeSource={RelativeSource AncestorType=controls1:IconButton}}"
+            />
+        
+        <Button.Styles>
+            <Style Selector="Button:disabled /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+            </Style>
+            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                <Setter Property="Background"
+                        Value="{Binding HoverBackground, RelativeSource={RelativeSource AncestorType=controls1:IconButton}}" />
+                <Setter Property="Foreground"
+                        Value="{Binding HoverForeground, RelativeSource={RelativeSource AncestorType=controls1:IconButton}}"/>
+            </Style>
+        </Button.Styles>
+
+    </Button>
+</UserControl>

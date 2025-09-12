@@ -1,0 +1,139 @@
+name: Publish Version
+
+#This workflow builds and deploys the web client to Cloudflare Pages and then builds the Windows x64 host application.
+#The host application links directly to the specific web client deployment URL for the version being built.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Git tag'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    outputs:
+      deployment-url: ${{ steps.deploy.outputs.deployment-url }}
+      deployment-id: ${{ steps.deploy.outputs.deployment-id }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        working-directory: webclient
+        run: npm install
+        
+      - name: Build application
+        working-directory: webclient
+        run: npm run build
+        env:
+          VITE_OGS_VER: ${{ github.event.inputs.tag }}
+        
+      - name: Install Wrangler
+        working-directory: webclient
+        run: npm install -g wrangler
+        
+      - name: Verify build output
+        working-directory: webclient
+        run: |
+          echo "Checking build directory:"
+          ls -la dist/ || echo "dist/ directory not found"
+          
+      - name: Deploy to Cloudflare Pages
+        working-directory: webclient
+        id: deploy
+        run: |
+          set -e  # Exit on any error
+          
+          if ! OUTPUT=$(wrangler pages deploy dist \
+            --project-name="${{ vars.CLOUDFLARE_PROJECT_NAME }}" 2>&1); then
+            echo "❌ Deployment failed!"
+            echo "Error output:"
+            echo "$OUTPUT"
+            exit 1
+          fi
+          
+          DEPLOYMENT_URL=$(echo "$OUTPUT" | grep -oP 'https://[a-z0-9-]+\.[^\.]+\.pages\.dev' | head -1)
+          
+          if [ -z "$DEPLOYMENT_URL" ]; then
+            echo "❌ Failed to extract deployment URL from output"
+            echo "Full output was:"
+            echo "$OUTPUT"
+            exit 1
+          fi
+          
+          echo "Fetching deployment ID..."
+          DEPLOYMENTS=$(curl -s \
+            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ vars.CLOUDFLARE_PROJECT_NAME }}/deployments?per_page=1" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}")
+          
+          DEPLOYMENT_ID=$(echo "$DEPLOYMENTS" | jq -r '.result[0].id')
+          
+          if [ "$DEPLOYMENT_ID" = "null" ] || [ -z "$DEPLOYMENT_ID" ]; then
+            echo "⚠️  Warning: Could not retrieve deployment ID"
+            DEPLOYMENT_ID="unknown"
+          fi
+          
+          echo "deployment-id=$DEPLOYMENT_ID" >> $GITHUB_OUTPUT
+          echo "deployment-url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          
+          echo "✅ Successfully deployed version ${{ github.event.inputs.tag }}"
+          echo "🌐 Deployment URL: $DEPLOYMENT_URL"
+          echo "📋 Deployment ID: $DEPLOYMENT_ID"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          
+  build-win64:
+    runs-on: windows-latest
+    needs: deploy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: publish app
+        run: |
+         $VERSION = "${{ github.event.inputs.tag }}"
+         if ($VERSION.StartsWith('v')) {$VERSION = $VERSION.Substring(1) }
+         dotnet publish .\src\OGS\ -o builds/build-win64 -r win-x64 `
+            /p:Version=$VERSION `
+            /p:WebClientUrl="${{ needs.deploy.outputs.deployment-url }}" `
+            /p:PublishAot=true
+            
+      - name: publish hook dll
+        run: |
+          $VERSION = "${{ github.event.inputs.tag }}"
+          if ($VERSION.StartsWith('v')) {$VERSION = $VERSION.Substring(1) }
+          dotnet publish .\src\OGS.Windows.HookLib\ -o builds/build-win64 -r win-x64 /p:Version=$VERSION /p:PublishAot=true
+
+      - name: create zip
+        run: |
+          del builds\build-win64\*.pdb
+          powershell -Command "Compress-Archive -Path builds\build-win64 -DestinationPath builds\build-win64.zip"
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          release_name: Release ${{ github.event.inputs.tag }}
+          body: |
+            Client app URL: ${{ needs.deploy.outputs.deployment-url }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: builds/build-win64.zip
+          asset_name: build-win64.zip
+          asset_content_type: application/zip

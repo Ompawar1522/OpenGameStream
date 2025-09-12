@@ -1,0 +1,56 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:OGS.ViewModels.Dialogs"
+        x:DataType="vm:StunServerEditorVm"
+        x:Class="OGS.Views.Dialogs.StunServerEditorWindow"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        MaxWidth="500"
+        CanResize="False"
+        Background="#161616"
+        Icon="/Assets/ogs.png"
+        Title="STUN server">
+
+    <Design.DataContext>
+        <vm:StunServerEditorVm/>
+    </Design.DataContext>
+
+    <Border Padding="20"
+            CornerRadius="12"
+            BorderBrush="{DynamicResource ThemeBorderBrush}"
+            BorderThickness="1"
+            BoxShadow="0 8 24 0 #80000080">
+        <StackPanel Spacing="12" MinWidth="420">
+            <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+            <Separator/>
+
+            <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="10">
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Watermark="Display name" IsReadOnly="{Binding IsReadOnly}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Address" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address}" Watermark="stun.example.com:19302" IsReadOnly="{Binding IsReadOnly}"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Username" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Username}" Watermark="(optional)" IsReadOnly="{Binding IsReadOnly}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Password" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password}" Watermark="(optional)" IsReadOnly="{Binding IsReadOnly}"/>
+            </Grid>
+
+            <TextBlock Foreground="#e57373"
+                       IsVisible="{Binding ValidationError, Converter={x:Static ObjectConverters.IsNotNull}}"
+                       Text="{Binding ValidationError}"/>
+
+            <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+                <Button Command="{Binding CancelCommand}">Cancel</Button>
+                <Button Classes="Accent"
+                        IsDefault="True"
+                        Command="{Binding SaveCommand}"
+                        IsEnabled="{Binding SaveEnabled}">Save</Button>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>
+
+

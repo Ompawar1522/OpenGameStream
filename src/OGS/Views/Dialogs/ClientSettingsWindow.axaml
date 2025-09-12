@@ -1,0 +1,103 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:data1="clr-namespace:OGS.Core.Config.Rtc;
+        assembly=OGS.Core"
+        xmlns:viewModels="clr-namespace:OGS.ViewModels"
+        xmlns:converters="clr-namespace:OGS.Converters"
+        xmlns:controls="clr-namespace:OGS.Controls"
+        x:DataType="viewModels:ClientSettingsWindowVm"
+        x:Class="OGS.Views.ClientSettingsWindow"
+        Icon="/Assets/ogs.png"
+        Title="Client settings"
+        Background="#272727"
+        SizeToContent="WidthAndHeight"
+		WindowStartupLocation="CenterOwner"
+        MaxWidth="500"
+        CanResize="False">
+
+    <Design.DataContext>
+        <viewModels:ClientSettingsWindowVm/>
+    </Design.DataContext>
+
+    <Window.Resources>
+        <x:Double x:Key="SectionPadding">12</x:Double>
+        <x:Double x:Key="FieldSpacing">8</x:Double>
+        <x:Double x:Key="RowSpacing">10</x:Double>
+        <x:Double x:Key="LabelColumnWidth">140</x:Double>
+        <converters:ValueInSetConverter x:Key="ValueInSet"/>
+    </Window.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*">
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="16,12,16,8">
+            <TextBlock Text="Client settings" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <Separator Margin="0,8,0,0"/>
+        </StackPanel>
+
+        <!-- Main content: single-page form layout (no tabs) -->
+        <Border Grid.Row="1" Margin="12" Padding="0" Background="Transparent">
+            <StackPanel Orientation="Vertical" Spacing="12">
+                <!-- Connection section -->
+                <Border Background="#161616" Padding="12" CornerRadius="6">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="{StaticResource RowSpacing}">
+                        <TextBlock Grid.ColumnSpan="2" Text="Connection mode" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Mode" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1" SelectedIndex="0" HorizontalAlignment="Stretch" ItemsSource="{Binding SelectableClientTypes}" SelectedItem="{Binding SelectedClientType}"/>
+                    </Grid>
+                </Border>
+
+                <!-- MQTT section: visible when ConnectionType is MqttRtc -->
+                <Border Background="#161616" Padding="12" CornerRadius="6"
+                        IsVisible="{Binding SelectedClientType.ClientType, Converter={StaticResource ValueInSet}, ConverterParameter='MqttRtc'}">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="{StaticResource RowSpacing}">
+                        <TextBlock Grid.ColumnSpan="2" Text="MQTT settings" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="MQTT server" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1" SelectedIndex="0" HorizontalAlignment="Stretch" ItemsSource="{Binding MqttServers}" SelectedItem="{Binding SelectedMqttServer}"/>
+                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="4" HorizontalAlignment="Left">
+                            <controls:IconButton Kind="Plus" HoverBackground="#555555" HoverForeground="#FFFFFF" ToolTip.Tip="Add MQTT server" Command="{Binding CreateMqttServerCommand}"/>
+                            <controls:IconButton Kind="Pencil" HoverBackground="#555555" HoverForeground="#FFFFFF" ToolTip.Tip="Edit MQTT server" Command="{Binding EditMqttServerCommand}"/>
+                            <controls:IconButton Kind="Delete" HoverBackground="#555555" HoverForeground="#FFFFFF"
+                                                 ToolTip.Tip="Delete MQTT server"
+                                                 Command="{Binding DeleteMqttServerCommand}"
+                                                 IsEnabled="{Binding !SelectedMqttServer.Immutable}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- WebRTC section: visible when ConnectionType is MqttRtc or ManualRtc -->
+                <Border Background="#161616" Padding="12" CornerRadius="6"
+                        IsVisible="{Binding SelectedClientType.ClientType, Converter={StaticResource ValueInSet}, ConverterParameter='MqttRtc|ManualRtc'}">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="{StaticResource RowSpacing}">
+                        <TextBlock Grid.ColumnSpan="2" Text="WebRTC settings" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="STUN server" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1" SelectedIndex="0" HorizontalAlignment="Stretch" ItemsSource="{Binding StunServers}" SelectedItem="{Binding SelectedStunServer}"/>
+                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="4" HorizontalAlignment="Left">
+                            <controls:IconButton Kind="Plus" HoverBackground="#555555" HoverForeground="#FFFFFF" ToolTip.Tip="Add STUN server" Command="{Binding CreateStunServerCommand}"/>
+                            <controls:IconButton Kind="Pencil" HoverBackground="#555555" HoverForeground="#FFFFFF" ToolTip.Tip="Edit STUN server" Command="{Binding EditStunServerCommand}"/>
+                            <controls:IconButton Kind="Delete" HoverBackground="#555555" HoverForeground="#FFFFFF" ToolTip.Tip="Delete STUN server" Command="{Binding DeleteStunServerCommand}" IsEnabled="{Binding !SelectedStunServer.Immutable}"/>
+                        </StackPanel>
+                        
+                        
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="TURN server" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding TurnServers}" SelectedItem="{Binding SelectedTurnServer}"/>
+                        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Spacing="4" HorizontalAlignment="Left">
+                            <controls:IconButton Kind="Plus" HoverBackground="#555555" HoverForeground="#FFFFFF" ToolTip.Tip="Add TURN server"
+                                                 Command="{Binding CreateTurnServerCommand}"/>
+                            <controls:IconButton Kind="Pencil" HoverBackground="#555555" HoverForeground="#FFFFFF" ToolTip.Tip="Edit TURN server"
+                                                 Command="{Binding EditTurnServerCommand}" 
+                                                 IsEnabled="{Binding SelectedTurnServer, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                            <controls:IconButton Kind="Delete" HoverBackground="#555555" HoverForeground="#FFFFFF" ToolTip.Tip="Delete TURN server"
+                                                 Command="{Binding DeleteTurnServerCommand}"
+                                                 IsEnabled="{Binding !SelectedTurnServer.Immutable}"/>
+                        </StackPanel>
+                        <CheckBox Grid.Row="6" Grid.Column="1" Content="Force TURN server" IsChecked="{Binding ForceTurnServer}" IsEnabled="{Binding ForceTurnServerEnabled}"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </Border>
+        
+        <Button Grid.Row="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" MinWidth="100" Margin="12,0,12,12" Command="{Binding SaveCommand}">Save</Button>
+    </Grid>
+</Window>

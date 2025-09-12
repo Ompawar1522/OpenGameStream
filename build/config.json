@@ -1,0 +1,126 @@
+{
+  "TurnServers": [
+    {
+      "Name": "None (default)",
+      "Address": "",
+      "Username": null,
+      "Password": null,
+      "Immutable": true,
+      "IsDefault": true,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "StunServers": [
+    {
+      "Name": "None",
+      "Address": "",
+      "Username": null,
+      "Password": null,
+      "IsDefault": false,
+      "Immutable": true,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "Name": "Google public STUN (default)",
+      "Address": "stun.l.google.com:19302",
+      "Username": null,
+      "Password": null,
+      "IsDefault": true,
+      "Immutable": true,
+      "Id": "946160bb-e90f-4a9c-8a81-7a3fb30d53bf"
+    },
+    {
+      "Name": "Google public STUN 2",
+      "Address": "stun2.l.google.com:19302",
+      "Username": null,
+      "Password": null,
+      "IsDefault": false,
+      "Immutable": true,
+      "Id": "51d1ed6a-576f-4420-b4a6-b4a7187bdef3"
+    },
+    {
+      "Name": "Google public STUN 3",
+      "Address": "stun3.l.google.com:19302",
+      "Username": null,
+      "Password": null,
+      "IsDefault": false,
+      "Immutable": true,
+      "Id": "d40b3d94-afee-49fd-b52f-008a86729e61"
+    }
+  ],
+  "MqttServers": [
+    {
+      "Name": "test.mosquitto.org",
+      "WebsocketUrl": "wss://test.mosquitto.org:8081",
+      "Username": null,
+      "Password": null,
+      "Immutable": true,
+      "IsDefault": false,
+      "Id": "4d214332-19e1-42fc-b0ad-810f21a96d99"
+    },
+    {
+      "Name": "EMQX public (Default)",
+      "WebsocketUrl": "wss://broker.emqx.io:8084/mqtt",
+      "Username": null,
+      "Password": null,
+      "Immutable": true,
+      "IsDefault": true,
+      "Id": "b1c8f0d2-3f5e-4a6b-9c7d-8f1e2a3b4c5d"
+    },
+    {
+      "Name": "HiveMQ public",
+      "WebsocketUrl": "wss://broker.hivemq.com:8884/mqtt",
+      "Username": null,
+      "Password": null,
+      "Immutable": true,
+      "IsDefault": false,
+      "Id": "911dcde5-76a9-41b5-843b-757fa7268641"
+    }
+  ],
+  "ClientConfig": {
+    "$type": "MQTT",
+    "ServerConfig": {
+      "Name": "EMQX public (Default)",
+      "WebsocketUrl": "wss://broker.emqx.io:8084/mqtt",
+      "Username": null,
+      "Password": null,
+      "Immutable": true,
+      "IsDefault": true,
+      "Id": "b1c8f0d2-3f5e-4a6b-9c7d-8f1e2a3b4c5d"
+    },
+    "StunServer": {
+      "Name": "Google public STUN 2",
+      "Address": "stun2.l.google.com:19302",
+      "Username": null,
+      "Password": null,
+      "IsDefault": false,
+      "Immutable": true,
+      "Id": "51d1ed6a-576f-4420-b4a6-b4a7187bdef3"
+    },
+    "TurnServer": {
+      "Name": "None (default)",
+      "Address": "",
+      "Username": null,
+      "Password": null,
+      "Immutable": true,
+      "IsDefault": true,
+      "Id": "00000000-0000-0000-0000-000000000000"
+    },
+    "ForceTurnServer": false
+  },
+  "FramerateLimit": 60,
+  "IncludeCursor": true,
+  "ForceSoftwareEncoder": false,
+  "Bitrate": {
+    "BitsPerSecond": 15000000
+  },
+  "EnableVideoPreview": true,
+  "DisplayCaptureAudioMode": "ExcludeProcess",
+  "AudioCaptureProcessName": "discord",
+  "WindowsConfig": {
+    "UseAsyncVideoProcessor": true,
+    "DisplayCaptureMethod": "Wgc",
+    "ShowGameHookConsole": false,
+    "ShowGameHookWarning": false
+  }
+}

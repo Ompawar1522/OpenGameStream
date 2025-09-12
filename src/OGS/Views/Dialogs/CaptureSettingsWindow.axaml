@@ -1,0 +1,96 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dialogs="clr-namespace:OGS.ViewModels.Dialogs"
+        xmlns:config="clr-namespace:OGS.Core.Config.Data;assembly=OGS.Core"
+        xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
+        x:DataType="dialogs:CaptureSettingsWindowVm"
+        x:Class="OGS.Views.Dialogs.CaptureSettingsWindow"
+        Icon="/Assets/ogs.png"
+        Title="Capture settings"
+        Background="#272727"
+        SizeToContent="WidthAndHeight"
+		WindowStartupLocation="CenterOwner"
+        CanResize="False">
+
+	<Design.DataContext>
+		<dialogs:CaptureSettingsWindowVm></dialogs:CaptureSettingsWindowVm>
+	</Design.DataContext>
+
+	<Window.Resources>
+		<x:Double x:Key="RowSpacing">6</x:Double>
+		<x:Double x:Key="LabelColumnWidth">140</x:Double>
+		<converters:EnumToBoolConverter x:Key="EnumBoolConverter" />
+	</Window.Resources>
+
+	<Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*">
+		<!-- Header -->
+		<StackPanel Grid.Row="0" Orientation="Vertical" Margin="12,8,12,6">
+			<TextBlock Text="Capture settings" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+			<Separator Margin="0,6,0,0"/>
+		</StackPanel>
+
+		<!-- Main content -->
+		<Border Grid.Row="1" Margin="8" Padding="0" Background="Transparent">
+			<StackPanel Orientation="Vertical" Spacing="8">
+
+				<!-- Video section -->
+				<Border Background="#161616" Padding="8" CornerRadius="4">
+					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8" RowSpacing="{StaticResource RowSpacing}">
+						<TextBlock Grid.ColumnSpan="2" Text="Video settings" FontWeight="SemiBold" FontSize="13"/>
+
+						<TextBlock Grid.Row="1" Grid.Column="0" Text="Framerate" VerticalAlignment="Center" FontSize="12"/>
+						<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding SelectableFrameRates}" SelectedItem="{Binding SelectedFrameRate}" HorizontalAlignment="Stretch"/>
+
+						<TextBlock Grid.Row="2" Grid.Column="0" Text="Bitrate" VerticalAlignment="Center" FontSize="12"/>
+						<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" Spacing="3">
+							<TextBlock Text="{Binding BitrateMbit, StringFormat='{} {0} mbps'}" FontSize="11"/>
+							<Slider Minimum="1" Maximum="50" Value="{Binding BitrateMbit}" TickFrequency="1" IsSnapToTickEnabled="True"/>
+						</StackPanel>
+
+						<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding EnableCursor}" Content="Enable cursor" FontSize="12"/>
+
+						<CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding EnablePreview}" Content="Enable preview" FontSize="12"/>
+					</Grid>
+				</Border>
+
+				<!-- Audio section -->
+				<Border Background="#161616" Padding="8" CornerRadius="4">
+					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="8" RowSpacing="{StaticResource RowSpacing}">
+						<TextBlock Grid.ColumnSpan="2" Text="Audio settings" FontWeight="SemiBold" FontSize="13"/>
+
+						<TextBlock Grid.Row="1" Grid.Column="0" Text="Capture mode" VerticalAlignment="Center" FontSize="12"/>
+						<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Spacing="2">
+							<RadioButton GroupName="audioMode" IsChecked="{Binding DisplayCaptureAudioMode, Converter={StaticResource EnumBoolConverter}, ConverterParameter={x:Static config:DisplayCaptureAudioMode.CaptureAll}}" FontSize="12">Capture everything</RadioButton>
+							<RadioButton GroupName="audioMode" IsChecked="{Binding DisplayCaptureAudioMode, Converter={StaticResource EnumBoolConverter}, ConverterParameter={x:Static config:DisplayCaptureAudioMode.IncludeProcess}}" FontSize="12">Single process</RadioButton>
+							<RadioButton GroupName="audioMode" IsChecked="{Binding DisplayCaptureAudioMode, Converter={StaticResource EnumBoolConverter}, ConverterParameter={x:Static config:DisplayCaptureAudioMode.ExcludeProcess}}" FontSize="12">Exclude process</RadioButton>
+						</StackPanel>
+
+						<TextBlock Grid.Row="2" Grid.Column="0" Text="Process name" VerticalAlignment="Center" FontSize="12"/>
+						<TextBox Grid.Row="2" Grid.Column="1" IsEnabled="{Binding EnableAudioProcessNameEntry}" Text="{Binding AudioProcessName}"/>
+					</Grid>
+				</Border>
+
+				<!-- Windows section -->
+				<Border Background="#161616" Padding="8" CornerRadius="4">
+					<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="8" RowSpacing="{StaticResource RowSpacing}">
+						<TextBlock Grid.ColumnSpan="2" Text="Windows" FontWeight="SemiBold" FontSize="13"/>
+
+						<TextBlock Grid.Row="1" Grid.Column="0" Text="Display capture method" VerticalAlignment="Center" FontSize="12"/>
+						<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding WinDisplayCaptureMethods}" SelectedItem="{Binding WinDisplayCaptureMethod}" HorizontalAlignment="Stretch"/>
+
+						<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding WinUseAsyncProcessor}" Content="Use async video processor" FontSize="12"/>
+
+						<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding WinGameHookConsole}" Content="Show game hook console" FontSize="12"/>
+					</Grid>
+				</Border>
+
+			</StackPanel>
+		</Border>
+
+		<!-- Footer -->
+		<Button Grid.Row="2" Command="{Binding SaveCommand}" Margin="8,0,8,8" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">Save</Button>
+	</Grid>
+
+</Window>

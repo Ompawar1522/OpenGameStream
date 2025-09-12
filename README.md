@@ -7,7 +7,7 @@
 
 ## 🎥 Demo
 
-[![Demo](https://github.com/user-attachments/assets/4b3f3f6d-2c42-405d-b82b-d333bc50663f)](https://github.com/user-attachments/assets/4b3f3f6d-2c42-405d-b82b-d333bc50663f)
+[![Demo](https://github.com/user-attachments/assets/78172c81-b3b4-49bb-983d-3c195067c6bd)](https://github.com/user-attachments/assets/78172c81-b3b4-49bb-983d-3c195067c6bd)
 
 ## ✨ Why not just use Parsec/Sunshine?
 Parsec & Sunsine are focused on enabling unattended remote access. This project only focuses on streaming your games while maintaining privacy. 
@@ -121,15 +121,6 @@ OpenGameStream uses MQTT brokers to negotiate a peer-to-peer connection via WebR
     <td/>
     <td/>
   </tr>
-  <tr>
-  <td/>
-    <td/>
-    <td/>
-    <td/>
-    <td/>
-    <td/>
-  </tr>
-  
 </table>
 
 > 🔧 Linux support is planned — stay tuned.

